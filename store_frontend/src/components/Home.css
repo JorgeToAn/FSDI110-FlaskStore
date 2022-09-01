@@ -1,0 +1,29 @@
+.home .banner img{
+    width: 100%;
+}
+
+.home .banner-text{
+    position: absolute;
+    text-align: start;
+    text-shadow: #436df5 2px 2px;
+    top: 18%;
+    left: 5%;
+    font-size: x-large;
+}
+
+.home .link-container{
+    margin: 50px 0;
+}
+
+.home .btn-link{
+    text-decoration: none;
+    color: white;
+    padding:10px;
+    background-color: #436df5;
+    border-radius: 5px;
+}
+
+.home .btn-link:hover{
+    background-color: #395dd6;
+}
+

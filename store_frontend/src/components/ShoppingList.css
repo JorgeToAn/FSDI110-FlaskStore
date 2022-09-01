@@ -1,0 +1,22 @@
+.shoppingList{
+    min-height: 80vh;
+}
+
+.shoppingList input{
+    width: 50%;
+    padding: .4rem 0;
+    font-size: medium;
+}
+
+.shoppingList button{
+    border: none;
+    border-radius: 5px;
+    background-color: #3adb3a;
+    color: white;
+    padding: .65rem .5rem;
+    font-weight: 700;
+}
+
+.shoppingList button:hover{
+    background-color: #2fb92f;   
+}

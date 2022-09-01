@@ -1,0 +1,24 @@
+.quantityPicker{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.quantityPicker p{
+    padding: 0 10px;
+}
+
+.quantityPicker button{
+    color: white;
+    background-color: #282c34;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    transition: background-color 0.5s;
+}
+
+.quantityPicker button:hover{
+    background-color: white;
+    color: black;
+}

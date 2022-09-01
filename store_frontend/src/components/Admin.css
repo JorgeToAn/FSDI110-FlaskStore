@@ -1,0 +1,58 @@
+.admin {
+    min-height: 80vh;
+}
+
+.admin .flex-container{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 5rem;
+}
+
+.admin .section-title{
+    font-size: x-large;
+    color: #5b77f5
+}
+
+.admin .product-form{
+    width: 50%;
+}
+
+.admin .field{
+    margin: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin .field label{
+    margin: 0 3rem;
+    font-weight: 700;
+}
+
+.admin .field input{
+    width: 80%;
+    padding: 0.3rem 0;
+    margin-right: 1rem;
+}
+
+.admin .btn-add{
+    font-weight: 700;
+    color: white;
+    padding:10px;
+    background-color: #436df5;
+    border: none;
+    border-radius: 5px;
+}
+
+.admin .btn-add:hover{
+    background-color: #395dd6;
+}
+
+.admin .coupon-form{
+    width: 50%;
+}
+
+.admin .alert-success{
+    width: 100%;
+    background-color: #39d66879;
+    color: #09d34d;
+}

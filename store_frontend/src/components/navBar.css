@@ -1,0 +1,64 @@
+.navbar{
+    background-color: #191e2e;
+    padding: 1px 10px 1px 10px;
+    text-align: start;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar .brand{
+    display: flex;
+}
+
+.navbar h5{
+    margin: 0;
+    letter-spacing: 1px;
+    padding: 10px 0 10px 5px;
+    font-size: larger;
+}
+
+.navbar .links, .navbar .brand{
+    margin: 10px 0;
+}
+
+.navbar .links{
+    padding: 10px 0;
+}
+
+.navbar nav .link{
+    text-decoration: none;
+    color: white;
+    padding: 0 5px;
+    transition: color 0.5s;
+}
+
+.navbar nav .link:hover{
+    color: #ffffffc2;
+}
+
+.navbar nav .btn-link{
+    text-decoration: none;
+    color: #191e2e;
+    padding:10px;
+    background-color: white;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.navbar nav .btn-link:hover{
+    background-color: #ffffffc2;
+}
+
+.navbar .cart-count{
+    position: relative;
+    right: 15px;
+    bottom: 20px;
+    display:inline-block;
+    background-color: #436df5;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+}
