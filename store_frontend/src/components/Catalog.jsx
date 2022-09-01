@@ -30,7 +30,7 @@ const Catalog = () => {
     
     return(
         <div className="catalog">
-            <h1>Nippy Online Store</h1>
+            <h1>Catalog</h1>
             <div className="categories">
                 {categories.map((category) => (
                     <button key={category}>{category}</button>

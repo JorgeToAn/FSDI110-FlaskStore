@@ -6,8 +6,8 @@ const Home = () => {
         <div className="home">
             <div className="banner">
                 <div className="banner-text">
-                    <h1>Welcome to NOS</h1>
-                    <h4>Here you can find a wide selection of board games, card games, and toys!</h4>
+                    <h1>Welcome to Stelo</h1>
+                    <h4>Here you can find a wide selection of board games, card games, videogames and toys!</h4>
                 </div>
                 <img src="/images/banner2_home.jpg" alt="banner" />
             </div>

@@ -4,9 +4,22 @@ import json
 from data import me
 from data import catalog
 import random
+from config import db
 
 app = Flask(__name__)
 CORS(app) #disable CORS, anyone can access this API
+
+#--------------------------------------------------------#
+#---------------------- UTILITY -------------------------#
+#--------------------------------------------------------#
+
+def fix_id(obj):
+    obj["_id"] = str(obj["_id"])
+    return obj
+
+
+
+
 
 @app.get("/")
 def home():
@@ -37,8 +50,14 @@ def about_api():
 
 @app.get("/api/catalog")
 def get_catalog():
-    # return list of products
-    return json.dumps(catalog)
+    cursor = db.Products.find({}) # this will read all products
+    results = []
+
+    for product in cursor:
+        product = fix_id(product) # fix the _id ...again
+        results.append(product)
+
+    return json.dumps(results)
 
 
 @app.post("/api/catalog")
@@ -49,18 +68,19 @@ def save_product():
     # validating
     if not "title" in product or len(product["title"]) <= 5:
         return abort(400, "ERROR: Must contain title with at least 5 characters")
-    elif not "price" in product or product["price"] <= 1:
+    elif not "price" in product or float(product["price"]) <= 1.0:
         return abort(400, "ERROR: Must contain a price greater than 1")
     elif not "image" in product:
         return abort(400, "Must include an image")
 
 
-    # assign unique id
-    new_id = len(catalog)
-    product.update({"_id": str(new_id)})
+    db.Products.insert_one(product)
+    print(product) # it should now have an _id assigned by the database
 
-    catalog.append(product)
-    return product
+    # fix the ObjectId
+    product = fix_id(product)
+
+    return json.dumps(product)
 
 
 @app.get("/api/product/<id>")
