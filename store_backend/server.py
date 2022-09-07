@@ -2,9 +2,10 @@ from flask import Flask, request, abort
 from flask_cors import CORS
 import json
 from data import me
-from data import catalog
+# from data import catalog
 import random
 from config import db
+from bson import ObjectId
 
 app = Flask(__name__)
 CORS(app) #disable CORS, anyone can access this API
@@ -75,7 +76,7 @@ def save_product():
 
 
     db.Products.insert_one(product)
-    print(product) # it should now have an _id assigned by the database
+    #print(product) # it should now have an _id assigned by the database
 
     # fix the ObjectId
     product = fix_id(product)
@@ -85,47 +86,60 @@ def save_product():
 
 @app.get("/api/product/<id>")
 def get_product_by_id(id):
-    product = "Product not found"
-    for item in catalog:
-        if(id == item["_id"]):
-            product = item
-            break
-    
-    return json.dumps(product)
+    result = db.Products.find_one({"_id": ObjectId(id)})
+    if not result:
+        return abort(404, "Product not found")
+
+    result = fix_id(result)
+
+    return json.dumps(result)
 
 
 @app.get("/api/products/<category>")
 def get_products_by_category(category):
-    products = []
-    for item in catalog:
-        if(category.lower() == item["category"].lower()):
-            products.append(item)
-    return json.dumps(products)
+    cursor = db.Products.find({"category": category})
+    catalog = []
+
+    for product in cursor:
+        product = fix_id(product)
+        catalog.append(product)
+
+    return json.dumps(catalog)
 
 
 @app.get("/api/count")
 def get_catalog_count():
-    # returns the number of items in the catalog
+    cursor = db.Products.find({})
+    catalog = []
+
+    for product in cursor:
+        catalog.append(product)
+
     count = len(catalog)
     return json.dumps(count)
 
 
 @app.get("/api/catalog/total")
 def get_catalog_total():
+    cursor = db.Products.find({})
     total = 0
-    for item in catalog:
-        total += item["price"]
+
+    for product in cursor:
+        total += product["price"]
     
     return json.dumps(total)
 
 
 @app.get("/api/catalog/cheapest")
 def get_cheapest():
-    cheapest = catalog[0]
-    for item in catalog:
-        if(item["price"] < cheapest["price"]):
-            cheapest = item
+    cursor = db.Products.find({})
+    
+    cheapest = cursor[0]
+    for product in cursor:
+        if(product["price"] < cheapest["price"]):
+            cheapest = product
 
+    cheapest = fix_id(cheapest)
     return json.dumps(cheapest)
 
 
@@ -156,11 +170,37 @@ def play_rps(pl_choice):
     return json.dumps(result)
 
 
+@app.get("/api/coupons")
+def get_coupons():
+    cursor = db.Coupons.find({})
+    coupons = []
+
+    for coupon in cursor:
+        coupon = fix_id(coupon)
+        coupons.append(coupon)
+    
+    return json.dumps(coupons)
+
+
+@app.post("/api/coupons")
+def save_coupon():
+    coupon = request.get_json()
+
+    if not "code" in coupon:
+        return abort(400, "ERROR: Must include a code")
+    elif not "discount" in coupon:
+        return abort(400, "ERROR: Must include a discount")
+
+    db.Coupons.insert_one(coupon)
+    coupon = fix_id(coupon)
+    return json.dumps(coupon)
+
+
 
 
 
 
 
 # remember to use flask --app server --debug run on cmd
-# debug=True allows code to be loaded without needing to kill and restart the server
+# debug allows code to be loaded without needing to kill and restart the server
 # app.run(debug=True)

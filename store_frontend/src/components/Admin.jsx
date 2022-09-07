@@ -1,11 +1,11 @@
 import "./Admin.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DataService from "../services/dataService";
 
 const Admin = () => {
     const [product, setProduct] = useState({});
     const [coupon, setCoupon] = useState({});
-    const [saveProdSuccess, setSaveProdSuccess] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
     
     const saveProduct = async () => {
         let fixProd = {...product};
@@ -16,10 +16,10 @@ const Admin = () => {
         let savedProd = await service.saveProduct(fixProd);
 
         if(savedProd && savedProd._id) {
-            setSaveProdSuccess(true);
+            setSaveSuccess(true);
 
             setTimeout(() => {
-                setSaveProdSuccess(false);
+                setSaveSuccess(false);
             }, 3000);
         }
     }
@@ -34,8 +34,20 @@ const Admin = () => {
         setProduct(copy);
     }
 
-    const saveCoupon = () => {
-        console.log(coupon);
+    const saveCoupon = async () => {
+        let fixCoupon = {...coupon};
+        fixCoupon.discount = parseFloat(fixCoupon.discount);
+
+        let service = new DataService();
+        let savedCoupon = await service.saveCoupon(fixCoupon);
+
+        if(savedCoupon && savedCoupon._id) {
+            setSaveSuccess(true);
+            
+            setTimeout(() => {
+                setSaveSuccess(false); 
+            }, 3000);
+        }
     }
 
     const couponChange = (args) => {
@@ -46,12 +58,22 @@ const Admin = () => {
         copy[fieldName] = value;
         setCoupon(copy);
     }
+
+    const loadCoupons = async () => {
+        let service = new DataService();
+        let coupons = await service.getCoupons();
+        console.log(coupons);
+    }
+
+    useEffect (() => {
+        loadCoupons();
+    }, []);
     
     return(
         <div className="admin">
             <h1>Admin Page</h1>
 
-            {saveProdSuccess ? <div className="alert-success">Product saved!</div> : null}
+            {saveSuccess ? <div className="alert-success">Saved succesfully!</div> : null}
 
             <div className="flex-container">
                 <div className="product-form">
